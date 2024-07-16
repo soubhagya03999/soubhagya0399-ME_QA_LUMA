@@ -25,7 +25,7 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.0'
 
     // https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java
-    implementation 'org.seleniumhq.selenium:selenium-java:4.21.0'
+    implementation 'org.seleniumhq.selenium:selenium-java:4.22.0'
 
     // https://mvnrepository.com/artifact/org.apache.commons/commons-io
     implementation 'org.apache.commons:commons-io:1.3.2'
@@ -37,6 +37,11 @@ dependencies {
     implementation group: 'org.apache.poi', name: 'poi-ooxml', version: '5.2.2'
 
     implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.17.2'
+
+    // TODO - Add extent reports dependency
+    implementation 'com.relevantcodes:extentreports:2.40.2'
+
+    implementation 'com.google.guava:guava:30.1.1-jre'
 }
 
 //task startScript(type:Exec) {

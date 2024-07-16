@@ -1,18 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
-<suite name="Automation On YouTube">
+<suite name="Automation On OpenCart Fungtionality">
     <listeners>
     <listener class-name = "demo.ListenersClass"></listener>
     </listeners>
-  <test name="Automation On YouTube Features">
+  <test name="Automation On OpenCart Fungtionality">
     <classes>
       <class name="demo.TestCases"/>
       <methods>
       <include name="TestCase01"></include>
-      <include name="TestCase02"></include>
-      <include name="TestCase03"></include>
-      <include name="TestCase04"></include>
-      <include name="TestCase05"></include>
       </methods>
     </classes>
   </test> <!-- ParallelTesting -->

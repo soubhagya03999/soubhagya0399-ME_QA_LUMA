@@ -1,121 +1,99 @@
 package demo;
 
+import java.io.File;
+import java.io.IOException;
+import java.sql.Timestamp;
 import java.time.Duration;
 
-import org.openqa.selenium.By;
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.testng.Assert;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
+import demo.pages.demo;
+
+// Extent report imports
+import com.relevantcodes.extentreports.ExtentReports;
+import com.relevantcodes.extentreports.ExtentTest;
+import com.relevantcodes.extentreports.LogStatus;
+
 public class TestCases {
     static ChromeDriver driver;
+    static ExtentTest test;
+    static ExtentReports report;
 
     @BeforeSuite(alwaysRun = true)
     public static void openBrowser(){
         driver = new ChromeDriver();
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        String timestampString = String.valueOf(timestamp.getTime());
+        report = new ExtentReports(System.getProperty("user.dir")+"\\src\\test\\extentReport\\report"+timestampString+".html",true);  
+        report.loadConfig(new File("C:\\projectnew\\soubhagya0399-ME_QA_OPENCHART\\src\\test\\resources\\config.xml"));
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
+        test = report.startTest("TestCase01");
     }
     
-
-    @Test(priority = 1,description = "Go to YouTube.com and Assert you are on the correct URL. Click on ABOUT at the bottom of the sidebar, and print the message on the screen.",enabled = true)
+    @Test(enabled = true)
     public static void TestCase01(){
         try {
-            //STEP-01:open you tube
-            YouTubeMethods.openYouTube(driver);
-            //STEP-02:using hard assert to check URL contains youtube or not 
-            Assert.assertTrue(YouTubeMethods.verifyYouTubeURL(driver));
-            //STEP-03:click on about
-            YouTubeMethods.clickOnAbout(driver);
-            //STEP-04:print message on the screen as per the given requirement in document
-            YouTubeMethods.printMessageOnAboutPage(driver);
-        } catch (Exception e) {
-            // TODO: handle exception
-            e.printStackTrace();
-        }
-    }
-
-    @Test(priority = 2,description = "Go to the Films tab and in the Top Selling section, scroll to the extreme right. Apply a Soft Assert on whether the movie is marked A for Mature or not. Apply a Soft assert on whether the movie is either Comedy or Animation.",enabled = true)
-    public static void TestCase02(){
-        try {
-            //STEP-01:open you tube
-            YouTubeMethods.openYouTube(driver);
-            //STEP-02:click on movies tab
-            YouTubeMethods.selectTheExploreTabs(driver, "Movies");
-            //STEP-03:scroll to extreme right
-            YouTubeMethods.scrollToTheExtremeRight(driver,"Movies");
-            //STEP-04:create the instance of soft assert
-            SoftAssert softAssert = new SoftAssert();
-            //STEP-05:verify the movie marked as A or not
-            softAssert.assertTrue(YouTubeMethods.verifyMovieMarkedForMature(driver, "A"));
-            //STEP-06:verify the movie types
-            softAssert.assertTrue(YouTubeMethods.verifyMovieTypesWithORCondition(driver, "Comedy", "Animation"));
-            //STEP-07:final check with assert with all the conditions
-            softAssert.assertAll();
-        } catch (Exception e) {
-            // TODO: handle exception
-            e.printStackTrace();
-        }
-    }
-    
-    @Test(priority = 3,description = "Go to the Music tab and in the 1st section, scroll to the extreme right. Print the name of the playlist. Soft Assert on whether the number of tracks listed is less than or equal to 50.",enabled = true)
-    public static void TestCase03(){
-        try {
-             //STEP-01:open you tube
-             YouTubeMethods.openYouTube(driver);
-             //STEP-02:go to music tab
-             YouTubeMethods.selectTheExploreTabs(driver, "Music");
-             //STEP-03:scroll to the extreme right
-             YouTubeMethods.scrollToTheExtremeRight(driver,"Music");
-             //STEP-04:print the name of the playlist
-             YouTubeMethods.printPlaylistOfMusicFirstSectionExtreamRight(driver);
-             //STEP-05:create the instance of soft assert
+            boolean status;
              SoftAssert softAssert = new SoftAssert();
-             //STEP-06:Soft Assert on whether the number of tracks listed is less than or equal to 50
-             softAssert.assertTrue(YouTubeMethods.verifyTracksListedIsLessThanOrEqualToTheSpecificNumberForMusicFirstSectionExtreamRight(driver, 50));
-             //STEP-07:final check with assert with all the conditions
-             softAssert.assertAll();
+            status=demo.navigateToDemoURL(driver);
+            softAssert.assertTrue(status);
+            if (status) {
+                test.log(LogStatus.PASS, "Navigate to Demo url");
+            }else{
+                test.log(LogStatus.FAIL, "Navigate to Demo url");
+            }
+            status=demo.clickToHeaderOptions(driver,"DEMO");
+            softAssert.assertTrue(status);
+            if (status) {
+                test.log(LogStatus.PASS, "Click on Demo option from Header.");
+            }else{
+                test.log(LogStatus.FAIL, "Click on Demo option from Header.");
+            }
+            status=demo.selectViewStoreFront(driver);
+            softAssert.assertTrue(status);
+            if (status) {
+                test.log(LogStatus.PASS, "Click on View Store Front.");
+            }else{
+                test.log(LogStatus.FAIL, "Click on View Store Front.");
+            }
+            
+            test.log(LogStatus.FAIL,test.addScreenCapture(captureScreenshot(driver)) + "Print all the product name and extract Discount price and MRP in an excel file:API INFO REQUIRED FOR ANTI BOT CAPTCHA");
+            test.log(LogStatus.FAIL,test.addScreenCapture(captureScreenshot(driver)) + "Select any product from Product List Page:API INFO REQUIRED FOR ANTI BOT CAPTCHA");
+            test.log(LogStatus.FAIL,test.addScreenCapture(captureScreenshot(driver)) + "Navigate to PDP:API INFO REQUIRED FOR ANTI BOT CAPTCHA");
+            test.log(LogStatus.FAIL,test.addScreenCapture(captureScreenshot(driver)) + "Change the quantity of the product:API INFO REQUIRED FOR ANTI BOT CAPTCHA");
+            test.log(LogStatus.FAIL,test.addScreenCapture(captureScreenshot(driver)) + "Add product to cart:API INFO REQUIRED FOR ANTI BOT CAPTCHA");
+            test.log(LogStatus.FAIL,test.addScreenCapture(captureScreenshot(driver)) + "Validate the product is updated or not in cart icon section:API INFO REQUIRED FOR ANTI BOT CAPTCHA");
+            test.log(LogStatus.FAIL,test.addScreenCapture(captureScreenshot(driver)) + "Open cart page through cart icon:API INFO REQUIRED FOR ANTI BOT CAPTCHA");
+            test.log(LogStatus.FAIL,test.addScreenCapture(captureScreenshot(driver)) + "Validate the product details on cart page:API INFO REQUIRED FOR ANTI BOT CAPTCHA");
+            test.log(LogStatus.FAIL,test.addScreenCapture(captureScreenshot(driver)) + "Change the quantity of the prodcut.:API INFO REQUIRED FOR ANTI BOT CAPTCHA");
+            test.log(LogStatus.FAIL,test.addScreenCapture(captureScreenshot(driver)) + "Move Product to Checkout:API INFO REQUIRED FOR ANTI BOT CAPTCHA");
+            test.log(LogStatus.FAIL,test.addScreenCapture(captureScreenshot(driver)) + "Fill all the Details to confirm the Order:API INFO REQUIRED FOR ANTI BOT CAPTCHA");
         } catch (Exception e) {
-            // TODO: handle exception
             e.printStackTrace();
         }
     }
 
-    @Test(priority = 4,description = "\tGo to News tab and print the title and body of the 1st 3 Latest News Posts along with the sum of number of likes on all 3 of them. No likes given means 0.",enabled = true)
-    public static void TestCase04(){
-        try {
-             //STEP-01:open you tube
-            YouTubeMethods.openYouTube(driver);
-             //STEP-02:click on news tab
-            YouTubeMethods.selectTheExploreTabs(driver, "News");
-             //STEP-03:print the latest 3 title and body of nes
-            YouTubeMethods.printTheTitleAndBodyOfLatestNewsPostsOfFirstThree(driver, 3);
-             //STEP-04:print sum of all likes of those 3 news having
-            YouTubeMethods.sumOfNumberOfLikesOnNumberOfNewsOnLatestNewsPosts(driver, 3);
-        } catch (Exception e) {
-            // TODO: handle exception
-            e.printStackTrace();
-        }
-    }
-
-    @Test(priority = 5,description = "Search for each of the items given in this excel sheet, and keep scrolling till the sum of each video views reach 10 Cr.",enabled = true,dataProvider = "search",dataProviderClass = ExcelUtils.class)
-    public static void TestCase05(String keyword){
-        try {
-            //STEP-01:open you tube
-            YouTubeMethods.openYouTube(driver);
-            //STEP-02: Search for each of the items given in this excel sheet, and keep scrolling till the sum of each video views reach 10 Cr.
-            YouTubeMethods.searchAndKeepScrollingTillTheSumOfEachVideoViewsReachTheLimit(driver, keyword, 100000000);
-        } catch (Exception e) {
-            // TODO: handle exception
-            e.printStackTrace();
-        }
+        public static String captureScreenshot(WebDriver driver) throws IOException{
+        File srcFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
+        File destFile = new File(System.getProperty("user.dir")+"\\src\\test\\screenshot\\img"+System.currentTimeMillis()+".png");
+        FileUtils.copyFile(srcFile, destFile);
+        String errorFile = destFile.getAbsolutePath();
+        return errorFile;
     }
 
     @AfterSuite(alwaysRun = true)
     public static void closeBrowser(){
-       driver.quit(); 
+    driver.quit(); 
+    report.endTest(test);
+    report.flush();
     }
 }
